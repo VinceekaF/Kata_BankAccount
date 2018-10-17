@@ -11,6 +11,7 @@ namespace BankAccountNumberFinder
         private static readonly Dictionary<string, string> _digits = new Dictionary<string, string>
         {
             {"     |  |","1" },
+            {"    |  | ","1" },
             {" _  _||_ ","2" },
             {" _  _| _|","3" },
             {"   |_|  |","4" },

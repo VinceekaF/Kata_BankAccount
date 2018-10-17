@@ -11,6 +11,8 @@ namespace BankAccountNumberFinder.Tests
         public Dictionary<string, string> _digits = new Dictionary<string, string>
         {
             {"     |  |","1" },
+            {"    |  | ","1" },
+            {"   |  |  ","1" },
             {" _  _||_ ","2" },
             {" _  _| _|","3" },
             {"   |_|  |","4" },
@@ -22,8 +24,11 @@ namespace BankAccountNumberFinder.Tests
             {" _ | ||_|","0" }
         };
 
+
+        //string pathTest1 = Path.Combine(Environment.CurrentDirectory, "Test1.txt");
+
         [Theory]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example.txt","123456789")]
+        [InlineData(@"C:\Users\DUPINV\Desktop\Example.txt", "123456789")]
         [InlineData(@"C:\Users\DUPINV\Desktop\Example2.txt","729466750")]
         public void GetAListOfDigitsAndGetTheAccountNumber(string filePath, string number)
         {
