@@ -12,6 +12,7 @@ namespace BankAccountNumberFinder
         {
             {"     |  |","1" },
             {"    |  | ","1" },
+            {"   |  |  ","1" },
             {" _  _||_ ","2" },
             {" _  _| _|","3" },
             {"   |_|  |","4" },
@@ -31,7 +32,12 @@ namespace BankAccountNumberFinder
             {
                 accountNumber = accountNumber + _digits[digit];
             }
-            
+
+            bool isValid = CheckIfAccountIsValid(accountNumber);
+
+            if (!isValid)
+                return $"{accountNumber} is not a valid account";
+
             return accountNumber;
         }
 
@@ -67,6 +73,23 @@ namespace BankAccountNumberFinder
             };
 
             return listOfDigits;
+        }
+
+        public static bool CheckIfAccountIsValid(string accountNumber)
+        {
+            int sum = 0;
+            int count = 9;
+            bool isValid = true;
+            for (int i = 0; i < accountNumber.Length; i++)
+            {
+                sum += (accountNumber[i] - '0') * count;
+                count--;
+            }
+
+            if (sum % 11 != 0)
+                return isValid = false;
+
+            return isValid;
 
         }
     }

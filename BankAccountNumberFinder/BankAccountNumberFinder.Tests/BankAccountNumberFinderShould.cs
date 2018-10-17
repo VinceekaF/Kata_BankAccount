@@ -29,7 +29,9 @@ namespace BankAccountNumberFinder.Tests
 
         [Theory]
         [InlineData(@"C:\Users\DUPINV\Desktop\Example.txt", "123456789")]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example2.txt","729466750")]
+        [InlineData(@"C:\Users\DUPINV\Desktop\Example2.txt", "729466750 is not a valid account")]
+        [InlineData(@"C:\Users\DUPINV\Desktop\Example3.txt", "526902124")]
+        [InlineData(@"C:\Users\DUPINV\Desktop\Example4.txt", "245852865 is not a valid account")]
         public void GetAListOfDigitsAndGetTheAccountNumber(string filePath, string number)
         {
             string accountNumber = NumberFinder.ScanEntry(filePath);
@@ -37,16 +39,18 @@ namespace BankAccountNumberFinder.Tests
             Assert.Equal(number, accountNumber);
         }
 
-        [Theory]
-        [InlineData(" _ |_  _|", "5")]
-        [InlineData(" _   |  |", "7")]
-        [InlineData(" _ | ||_|", "0")]
-        public void GetValueOfADigitSchema(string schema, string value)
-        {
-            string number = _digits[schema];
 
-            Assert.Equal(value, number);
+        [Theory]
+        [InlineData("345882865",true)]
+        [InlineData("245852865",false)]
+        [InlineData("111111145",true)]
+        public void CheckAccountNumber(string accountNumber, bool isValid)
+        {
+            bool testIfValid = NumberFinder.CheckIfAccountIsValid(accountNumber);
+
+            Assert.Equal(isValid, testIfValid);
         }
+       
 
        
     }
