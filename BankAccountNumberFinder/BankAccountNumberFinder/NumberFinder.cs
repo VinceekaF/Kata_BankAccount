@@ -51,7 +51,7 @@ namespace BankAccountNumberFinder
 
                 isValid = CheckIfAccountIsValid(accountNumber);
 
-                if (!isValid)
+                if (!isValid && isReadable)
                 {
                     accountNumber += " ERR";
                 }
