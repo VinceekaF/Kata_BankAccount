@@ -11,26 +11,40 @@ namespace BankAccountNumberFinder.BDD
     [Binding]
     public sealed class StepBankAccountNumberFinder
     {
-        public static string Output
+        public static List<string> Output
         {
-            get => ScenarioContext.Current.Get<string>(nameof(Output));
+            get => ScenarioContext.Current.Get<List<string>>(nameof(Output));
             set => ScenarioContext.Current.Set(value, nameof(Output));
         }
 
-
-        //[When(@"I read a (.*)")]
-        //public void WhenIReadALine(string digit)
-        //{
-        //    Output = NumberFinder.ScanEntry(digit);
-        //}
-
-        [Then(@"I want to find its (.*)")]
-        public void ThenIWantToFindItsValue(int value)
+        public static string accountNumber
         {
-            Assert.AreEqual(value, Output);
+            get => ScenarioContext.Current.Get<string>(nameof(accountNumber));
+            set => ScenarioContext.Current.Set(value, nameof(accountNumber));
         }
 
+        [When(@"I read a text (.*)")]
+        public void WhenIReadAText(string filePath)
+        {
+            Output = NumberFinder.ScanEntry(filePath);
+        }
 
+        [When(@"I target an account by its (.*)")]
+        public void WhenITargetAnAccountByIts(int index)
+        {
+            accountNumber = Output[index];
+        }
 
+        [Then(@"I want to get a list with the correct count of account (.*)")]
+        public void ThenIWantToGetTheAccount(int count)
+        {
+            Assert.AreEqual(count, Output.Count);
+        }
+
+        [Then(@"I want to get a normalized ""(.*)""")]
+        public void ThenIWantToGetANormalized(string account)
+        {
+            Assert.AreEqual(account, accountNumber);
+        }
     }
 }

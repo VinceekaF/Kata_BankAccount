@@ -77,20 +77,44 @@ namespace BankAccountNumberFinder.BDD
             this.ScenarioTearDown();
         }
         
-        [Xunit.TheoryAttribute(DisplayName="When I read a digit I want to get its value")]
+        [Xunit.TheoryAttribute(DisplayName="When I read a file I want to get the account numbers")]
         [Xunit.TraitAttribute("FeatureTitle", "BankAccountNumberFinder")]
-        [Xunit.TraitAttribute("Description", "When I read a digit I want to get its value")]
-        [Xunit.InlineDataAttribute("_ |_  _|", "5", new string[0])]
-        public virtual void WhenIReadADigitIWantToGetItsValue(string line, string value, string[] exampleTags)
+        [Xunit.TraitAttribute("Description", "When I read a file I want to get the account numbers")]
+        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example55.txt", "5", new string[0])]
+        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example66.txt", "5", new string[0])]
+        public virtual void WhenIReadAFileIWantToGetTheAccountNumbers(string file, string numbers, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I read a digit I want to get its value", null, exampleTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I read a file I want to get the account numbers", null, exampleTags);
 #line 7
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 8
- testRunner.When("I read a digit", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When(string.Format("I read a text {0}", file), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.Then("I want to find its value", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(string.Format("I want to get a list with the correct count of account {0}", numbers), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.TheoryAttribute(DisplayName="When I target a specific account in my list, I want to see a readable number")]
+        [Xunit.TraitAttribute("FeatureTitle", "BankAccountNumberFinder")]
+        [Xunit.TraitAttribute("Description", "When I target a specific account in my list, I want to see a readable number")]
+        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example55.txt", "1", "\"729466750 ERR\"", new string[0])]
+        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example55.txt", "4", "\"55?7?312? ILL\"", new string[0])]
+        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example55.txt", "4", "\"55?7?312? ILL\"", new string[0])]
+        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example66.txt", "0", "\"123456789\"", new string[0])]
+        public virtual void WhenITargetASpecificAccountInMyListIWantToSeeAReadableNumber(string file, string index, string account, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I target a specific account in my list, I want to see a readable number", null, exampleTags);
+#line 15
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 16
+ testRunner.When(string.Format("I read a text {0}", file), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.And(string.Format("I target an account by its {0}", index), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 18
+ testRunner.Then(string.Format("I want to get a normalized {0}", account), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
