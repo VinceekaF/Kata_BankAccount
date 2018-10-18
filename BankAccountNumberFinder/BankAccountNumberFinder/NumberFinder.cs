@@ -36,6 +36,7 @@ namespace BankAccountNumberFinder
                 string accountNumber = "";
                 bool isReadable = true;
                 bool isValid;
+
                 foreach (var number in listOfDigits)
                 {
                     if (_digits.ContainsKey(number))
@@ -86,15 +87,15 @@ namespace BankAccountNumberFinder
 
                 foreach (string line in temporaryLines)
                 {
-                    firstDigit = firstDigit + line.Substring(0, 3);
-                    secondDigit = secondDigit + line.Substring(3, 3);
-                    thirdDigit = thirdDigit + line.Substring(6, 3);
-                    fourthDigit = fourthDigit + line.Substring(9, 3);
-                    fifthDigit = fifthDigit + line.Substring(12, 3);
-                    sixthDigit = sixthDigit + line.Substring(15, 3);
-                    seventhDigit = seventhDigit + line.Substring(18, 3);
-                    eighthDigit = eighthDigit + line.Substring(21, 3);
-                    ninthDigit = ninthDigit + line.Substring(24, 3);
+                    firstDigit += line.Substring(0, 3);
+                    secondDigit += line.Substring(3, 3);
+                    thirdDigit += line.Substring(6, 3);
+                    fourthDigit += line.Substring(9, 3);
+                    fifthDigit += line.Substring(12, 3);
+                    sixthDigit += line.Substring(15, 3);
+                    seventhDigit += line.Substring(18, 3);
+                    eighthDigit += line.Substring(21, 3);
+                    ninthDigit += line.Substring(24, 3);
                 }
 
                 listOfDigits = new List<string>

@@ -27,8 +27,8 @@ namespace BankAccountNumberFinder.Tests
         };
 
 
-        //string pathTest1 = Path.Combine(Environment.CurrentDirectory, "Test1.txt");
-
+        private readonly string pathTest1 = Path.Combine(Environment.CurrentDirectory, "Test55.txt");
+ 
         [Theory]
         [InlineData(@"C:\Users\DUPINV\Desktop\Example55.txt", "111111145")]
         public void GetListOfAccountsNumber(string filePath, string number)
@@ -51,6 +51,7 @@ namespace BankAccountNumberFinder.Tests
         
         [Theory]
         [InlineData(@"C:\Users\DUPINV\Desktop\Example55.txt", 5)]
+        [InlineData(@"C:\Users\DUPINV\Desktop\Example66.txt", 5)]
         public void GetListOfAccounts(string filePath, int count)
         {
             List<List<string>> listOfAccount = NumberFinder.ReadAllAccountNumbers(filePath);
