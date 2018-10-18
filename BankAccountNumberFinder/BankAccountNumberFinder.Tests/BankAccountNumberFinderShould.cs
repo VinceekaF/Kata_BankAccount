@@ -58,5 +58,17 @@ namespace BankAccountNumberFinder.Tests
 
             Assert.Equal(count, listOfAccount.Count);
         }
+
+        [Theory]
+        //[InlineData("490067715 ERR", "490067715 AMB")]
+        //[InlineData("556703120 ERR", "556703120 AMB")]
+        //[InlineData("55?7?312? ILL", "55?7?312? ILL")]
+        [InlineData("12345678? ILL", "12345678? AMB")]
+        public void CheckIfThereIsAPossibleError(string accountNumber, string expected)
+        {
+            accountNumber = NumberFinder.CheckPossibleErrors(accountNumber);
+
+            Assert.Equal(expected, accountNumber);
+        }
     }
 }

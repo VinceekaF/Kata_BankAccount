@@ -61,6 +61,11 @@ namespace BankAccountNumberFinder
                     accountNumber += " ILL";
                 }
 
+                if (accountNumber.Length > 9)
+                {
+                    CheckPossibleErrors(accountNumber);
+                }
+
                 allAccountNumbersReadable.Add(accountNumber);
             }
 
@@ -120,6 +125,126 @@ namespace BankAccountNumberFinder
             return listOfAccount;
 
         }
+
+        public static string CheckPossibleErrors(string accountNumber)
+        {
+            bool isPossible = false;
+            if (accountNumber.Contains("ERR"))
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    if (!isPossible)
+                    {
+                        switch (accountNumber[i].ToString())
+                        {
+                            case "0":
+                            case "6":
+                            case "9":
+                                isPossible = TestTo8(accountNumber, i);
+                                break;
+                            case "1":
+                                isPossible = TestTo7(accountNumber, i);
+                                break;
+                            case "3":
+                                isPossible = TestTo9(accountNumber, i);
+                                break;
+                            case "5":
+                                isPossible = TestTheTwoCasesOf5(accountNumber, i);
+                                break;
+                            default:
+                                isPossible = false;
+                                break;
+                        }
+                    }
+                }
+
+            }
+            else if (accountNumber.Contains("ILL"))
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    if (accountNumber[i].ToString() == "?")
+                    {
+                        isPossible = testAllNumbers(accountNumber, i);
+                    }
+                }
+            }
+
+            if (isPossible && accountNumber.Contains("ERR"))
+            {
+                accountNumber = accountNumber.Replace("ERR", "AMB");
+            }
+            else if (!isPossible && accountNumber.Contains("ERR"))
+            {
+                accountNumber = accountNumber.Replace("ERR", "ILL");
+            }
+            else if (isPossible && accountNumber.Contains("ILL"))
+            {
+                accountNumber = accountNumber.Replace("ILL", "AMB");
+            }
+
+            return accountNumber;
+        }
+
+        private static bool testAllNumbers(string accountNumber, int index)
+        {
+            bool isPossible = false;
+            string falseAccountNumber = accountNumber.Remove(9);
+            for (int j = 0; j < 10; j++)
+            {
+                falseAccountNumber = falseAccountNumber.Remove(index, 1).Insert(index, j.ToString());
+                isPossible = CheckIfAccountIsValid(falseAccountNumber);
+                if (isPossible)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TestTo8(string accountNumber, int index)
+        {
+            string falseAccountNumber = accountNumber;
+            falseAccountNumber = falseAccountNumber.Remove(index, 1).Insert(index, "8").Remove(9);
+
+            return CheckIfAccountIsValid(falseAccountNumber);
+        }
+
+        public static bool TestTo7(string accountNumber, int index)
+        {
+            string falseAccountNumber = accountNumber;
+            falseAccountNumber = falseAccountNumber.Remove(index, 1).Insert(index, "7").Remove(9);
+
+            return CheckIfAccountIsValid(falseAccountNumber);
+        }
+
+        public static bool TestTo9(string accountNumber, int index)
+        {
+            string falseAccountNumber = accountNumber;
+            falseAccountNumber = falseAccountNumber.Remove(index, 1).Insert(index, "9");
+            if(falseAccountNumber.Length > 9)
+            {
+                falseAccountNumber = falseAccountNumber.Remove(9);
+            }
+
+            return CheckIfAccountIsValid(falseAccountNumber);
+        }
+        public static bool TestTheTwoCasesOf5(string accountNumber, int index)
+        {
+            bool isPossible5 = false;
+            string falseAccountNumber = accountNumber;
+            falseAccountNumber = falseAccountNumber.Remove(index, 1).Insert(index, "6").Remove(9);
+
+            isPossible5 = CheckIfAccountIsValid(falseAccountNumber);
+            if(!isPossible5)
+            {
+                isPossible5 = TestTo9(falseAccountNumber, index);
+            }
+            return isPossible5;
+        }
+
+       
 
         public static bool CheckIfAccountIsValid(string accountNumber)
         {
