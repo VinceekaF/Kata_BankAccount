@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using System.IO;
+using System.Linq;
+
 
 namespace BankAccountNumberFinder.Tests
 {
@@ -28,17 +30,13 @@ namespace BankAccountNumberFinder.Tests
         //string pathTest1 = Path.Combine(Environment.CurrentDirectory, "Test1.txt");
 
         [Theory]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example.txt", "123456789")]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example2.txt", "729466750 is not a valid account")]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example3.txt", "526902124")]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example4.txt", "245852865 is not a valid account")]
-        public void GetAListOfDigitsAndGetTheAccountNumber(string filePath, string number)
+        [InlineData(@"C:\Users\DUPINV\Desktop\Example55.txt", "111111145")]
+        public void GetListOfAccountsNumber(string filePath, string number)
         {
-            string accountNumber = NumberFinder.ScanEntry(filePath);
+            List<String> allAccountNumbersReadable = NumberFinder.ScanEntry(filePath);
 
-            Assert.Equal(number, accountNumber);
+            Assert.Equal(number, allAccountNumbersReadable[0]);
         }
-
 
         [Theory]
         [InlineData("345882865",true)]
@@ -50,8 +48,14 @@ namespace BankAccountNumberFinder.Tests
 
             Assert.Equal(isValid, testIfValid);
         }
-       
+        
+        [Theory]
+        [InlineData(@"C:\Users\DUPINV\Desktop\Example55.txt", 5)]
+        public void GetListOfAccounts(string filePath, int count)
+        {
+            List<List<string>> listOfAccount = NumberFinder.ReadAllAccountNumbers(filePath);
 
-       
+            Assert.Equal(count, listOfAccount.Count);
+        }
     }
 }

@@ -18,11 +18,11 @@ namespace BankAccountNumberFinder.BDD
         }
 
 
-        [When(@"I read a (.*)")]
-        public void WhenIReadALine(string digit)
-        {
-            Output = NumberFinder.ScanEntry(digit);
-        }
+        //[When(@"I read a (.*)")]
+        //public void WhenIReadALine(string digit)
+        //{
+        //    Output = NumberFinder.ScanEntry(digit);
+        //}
 
         [Then(@"I want to find its (.*)")]
         public void ThenIWantToFindItsValue(int value)

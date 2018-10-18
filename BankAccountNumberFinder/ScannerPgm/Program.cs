@@ -1,5 +1,6 @@
 ﻿using BankAccountNumberFinder;
 using System;
+using System.Collections.Generic;
 
 namespace ScannerPgm
 {
@@ -9,8 +10,11 @@ namespace ScannerPgm
         {
             Console.WriteLine("Entrez le chemin de votre fichier");
             string filePath = Console.ReadLine();
-            string accountNumber = NumberFinder.ScanEntry(filePath);
-            Console.WriteLine("Le numero du compte est: " + accountNumber);
+            List<string> accountNumbers = NumberFinder.ScanEntry(filePath);
+            foreach(var number in accountNumbers)
+            {
+                Console.WriteLine(number);
+            }
 
             Console.Read();
         }
