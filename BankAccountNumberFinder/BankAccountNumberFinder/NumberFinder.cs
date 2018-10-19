@@ -60,10 +60,10 @@ namespace BankAccountNumberFinder
                 {
                     accountNumber += " ILL";
                 }
-
-                if (accountNumber.Length > 9)
+                int v =accountNumber.Where(x => x.ToString() == "?").Count();
+                if (accountNumber.Length > 9 || accountNumber.Where(x=>x.ToString()=="?").Count() < 2)
                 {
-                    CheckPossibleErrors(accountNumber);
+                    accountNumber = CheckPossibleErrors(accountNumber);
                 }
 
                 allAccountNumbersReadable.Add(accountNumber);
@@ -213,6 +213,8 @@ namespace BankAccountNumberFinder
             return isValid;
 
         }
+
+
 
 
     }

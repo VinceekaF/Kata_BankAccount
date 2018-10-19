@@ -30,9 +30,10 @@ namespace BankAccountNumberFinder.Tests
         private readonly string pathTest1 = Path.Combine(Environment.CurrentDirectory, "Test55.txt");
  
         [Theory]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example55.txt", "111111145")]
-        public void GetListOfAccountsNumber(string filePath, string number)
+        [InlineData("Example55.txt", "111111145")]
+        public void GetListOfAccountsNumber(string fileName, string number)
         {
+            string filePath = GetPath(fileName);
             List<String> allAccountNumbersReadable = NumberFinder.ScanEntry(filePath);
 
             Assert.Equal(number, allAccountNumbersReadable[0]);
@@ -50,25 +51,37 @@ namespace BankAccountNumberFinder.Tests
         }
         
         [Theory]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example55.txt", 5)]
-        [InlineData(@"C:\Users\DUPINV\Desktop\Example66.txt", 5)]
-        public void GetListOfAccounts(string filePath, int count)
+        [InlineData("Example55.txt", 5)]
+        [InlineData("Example66.txt", 5)]
+        public void GetListOfAccounts(string fileName, int count)
         {
+            string filePath = GetPath(fileName);
             List<List<string>> listOfAccount = NumberFinder.ReadAllAccountNumbers(filePath);
 
             Assert.Equal(count, listOfAccount.Count);
         }
 
         [Theory]
-        //[InlineData("490067715 ERR", "490067715 AMB")]
-        //[InlineData("556703120 ERR", "556703120 AMB")]
-        //[InlineData("55?7?312? ILL", "55?7?312? ILL")]
+        [InlineData("490067715 ERR", "490067715 AMB")]
+        [InlineData("556703120 ERR", "556703120 AMB")]
         [InlineData("12345678? ILL", "12345678? AMB")]
         public void CheckIfThereIsAPossibleError(string accountNumber, string expected)
         {
             accountNumber = NumberFinder.CheckPossibleErrors(accountNumber);
 
             Assert.Equal(expected, accountNumber);
+        }
+
+        private string GetPath(string fileName)
+        {
+            string path = @".\";
+
+            while (!File.Exists(path + fileName))
+            {
+                path += @"..\";
+            }
+
+            return path + fileName;
         }
     }
 }

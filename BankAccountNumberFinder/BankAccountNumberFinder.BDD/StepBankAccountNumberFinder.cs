@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using BankAccountNumberFinder;
@@ -24,8 +25,9 @@ namespace BankAccountNumberFinder.BDD
         }
 
         [When(@"I read a text (.*)")]
-        public void WhenIReadAText(string filePath)
+        public void WhenIReadAText(string fileName)
         {
+            string filePath = GetPath(fileName);
             Output = NumberFinder.ScanEntry(filePath);
         }
 
@@ -45,6 +47,19 @@ namespace BankAccountNumberFinder.BDD
         public void ThenIWantToGetANormalized(string account)
         {
             Assert.AreEqual(account, accountNumber);
+        }
+
+
+        private string GetPath(string fileName)
+        {
+            string path = @".\";
+
+            while (!File.Exists(path + fileName))
+            {
+                path += @"..\";
+            }
+
+            return path + fileName;
         }
     }
 }

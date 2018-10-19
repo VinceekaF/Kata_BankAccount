@@ -80,8 +80,8 @@ namespace BankAccountNumberFinder.BDD
         [Xunit.TheoryAttribute(DisplayName="When I read a file I want to get the account numbers")]
         [Xunit.TraitAttribute("FeatureTitle", "BankAccountNumberFinder")]
         [Xunit.TraitAttribute("Description", "When I read a file I want to get the account numbers")]
-        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example55.txt", "5", new string[0])]
-        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example66.txt", "5", new string[0])]
+        [Xunit.InlineDataAttribute("Example55.txt", "5", new string[0])]
+        [Xunit.InlineDataAttribute("Example66.txt", "5", new string[0])]
         public virtual void WhenIReadAFileIWantToGetTheAccountNumbers(string file, string numbers, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I read a file I want to get the account numbers", null, exampleTags);
@@ -99,10 +99,9 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TheoryAttribute(DisplayName="When I target a specific account in my list, I want to see a readable number")]
         [Xunit.TraitAttribute("FeatureTitle", "BankAccountNumberFinder")]
         [Xunit.TraitAttribute("Description", "When I target a specific account in my list, I want to see a readable number")]
-        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example55.txt", "1", "\"729466750 ERR\"", new string[0])]
-        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example55.txt", "4", "\"55?7?312? ILL\"", new string[0])]
-        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example55.txt", "4", "\"55?7?312? ILL\"", new string[0])]
-        [Xunit.InlineDataAttribute("C:\\Users\\DUPINV\\Desktop\\Example66.txt", "0", "\"123456789\"", new string[0])]
+        [Xunit.InlineDataAttribute("Example55.txt", "1", "\"729466750 AMB\"", new string[0])]
+        [Xunit.InlineDataAttribute("Example55.txt", "4", "\"55?7?312? AMB\"", new string[0])]
+        [Xunit.InlineDataAttribute("Example66.txt", "0", "\"123456789\"", new string[0])]
         public virtual void WhenITargetASpecificAccountInMyListIWantToSeeAReadableNumber(string file, string index, string account, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("When I target a specific account in my list, I want to see a readable number", null, exampleTags);
