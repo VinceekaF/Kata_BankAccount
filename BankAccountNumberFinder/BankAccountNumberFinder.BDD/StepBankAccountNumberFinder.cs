@@ -12,9 +12,9 @@ namespace BankAccountNumberFinder.BDD
     [Binding]
     public sealed class StepBankAccountNumberFinder
     {
-        public static List<string> Output
+        public static List<AccountNumber> Output
         {
-            get => ScenarioContext.Current.Get<List<string>>(nameof(Output));
+            get => ScenarioContext.Current.Get<List<AccountNumber>>(nameof(Output));
             set => ScenarioContext.Current.Set(value, nameof(Output));
         }
 
@@ -34,7 +34,7 @@ namespace BankAccountNumberFinder.BDD
         [When(@"I target an account by its (.*)")]
         public void WhenITargetAnAccountByIts(int index)
         {
-            accountNumber = Output[index];
+            accountNumber = Output[index].accountNumber;
         }
 
         [Then(@"I want to get a list with the correct count of account (.*)")]

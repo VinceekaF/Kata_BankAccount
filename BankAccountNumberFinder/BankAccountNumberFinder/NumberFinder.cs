@@ -25,18 +25,17 @@ namespace BankAccountNumberFinder
             {" _ | ||_|","0" }
         };
         
-        public static List<string> ScanEntry(string filePath)
+        public static List<AccountNumber> ScanEntry(string filePath)
         {
             List<List<string>> allAccountNumbers = ReadAllAccountNumbers(filePath);
 
-            List<String> allAccountNumbersReadable = new List<string>();
+            List<AccountNumber> allAccountNumbersReadable = new List<AccountNumber>();
 
 
             foreach (var listOfDigits in allAccountNumbers)
             {
                 string accountNumber = "";
                 bool isReadable = true;
-                bool isValid;
 
                 foreach (var number in listOfDigits)
                 {
@@ -51,23 +50,18 @@ namespace BankAccountNumberFinder
                     }
                 }
 
-                isValid = CheckIfAccountIsValid(accountNumber);
+                AccountNumber account = new AccountNumber(accountNumber, isReadable);
 
-                if (!isValid && isReadable)
-                {
-                    accountNumber += " ERR";
-                }
-                else if (!isReadable)
-                {
-                    accountNumber += " ILL";
-                }
+                account.isValid = CheckIfAccountIsValid(account.accountNumber);
 
-                if (accountNumber.Length > 9 && accountNumber.Where(x=>x.ToString()=="?").Count() < 2)
+                account.AddInfo(account);
+
+                if (account.accountNumber.Length > 9 && account.accountNumber.Where(x=>x.ToString()=="?").Count() < 2)
                 {
-                    accountNumber = CheckPossibleErrors(accountNumber);
+                    account.accountNumber = CheckPossibleErrors(account);
                 }
 
-                allAccountNumbersReadable.Add(accountNumber);
+                allAccountNumbersReadable.Add(account);
             }
 
             return allAccountNumbersReadable;
@@ -125,76 +119,55 @@ namespace BankAccountNumberFinder
             return listOfAccount;
         }
 
-        public static string CheckPossibleErrors(string accountNumber)
+        public static string CheckPossibleErrors(AccountNumber account)
         {
-            bool isPossible = false;
-            
-            if (accountNumber.Contains("ERR"))
+                       
+            for (int i = 0; i < 9; i++)
             {
-                for (int i = 0; i < 9; i++)
+                if (!account.errorPossible)
                 {
-                    if (!isPossible)
+                    ITestNumberFactory _strategy = TestPossibleErrorFactory.TestNone();
+                    switch (account.accountNumber[i].ToString())
                     {
-                        ITestNumberFactory _strategy = TestPossibleErrorFactory.Test7();
-                        switch (accountNumber[i].ToString())
-                        {
-                            case "0":
-                                _strategy = TestPossibleErrorFactory.Test0();
-                                break;
-                            case "1":
-                                _strategy = TestPossibleErrorFactory.Test1();
-                                break;
-                            case "3":
-                                _strategy = TestPossibleErrorFactory.Test3();
-                                break;
-                            case "5":
-                                _strategy = TestPossibleErrorFactory.Test5();
-                                break;
-                            case "6":
-                                _strategy = TestPossibleErrorFactory.Test6();
-                                break;
-                            case "7":
-                                _strategy = TestPossibleErrorFactory.Test7();
-                                break;
-                            case "8":
-                                _strategy = TestPossibleErrorFactory.Test8();
-                                break;
-                            case "9":
-                                _strategy = TestPossibleErrorFactory.Test9();
-                                break;
-                            default:
-                                isPossible = false;
-                                break;
-                        }
-                        isPossible = _strategy.TestAPossibleNumber(accountNumber, i);
+                        case "0":
+                            _strategy = TestPossibleErrorFactory.Test0();
+                            break;
+                        case "1":
+                            _strategy = TestPossibleErrorFactory.Test1();
+                            break;
+                        case "3":
+                            _strategy = TestPossibleErrorFactory.Test3();
+                            break;
+                        case "5":
+                            _strategy = TestPossibleErrorFactory.Test5();
+                            break;
+                        case "6":
+                            _strategy = TestPossibleErrorFactory.Test6();
+                            break;
+                        case "7":
+                            _strategy = TestPossibleErrorFactory.Test7();
+                            break;
+                        case "8":
+                            _strategy = TestPossibleErrorFactory.Test8();
+                            break;
+                        case "9":
+                            _strategy = TestPossibleErrorFactory.Test9();
+                            break;
+                        case "?":
+                            _strategy = TestPossibleErrorFactory.TestAll();
+                            break;
+                        default:
+                            account.errorPossible = false;
+                            break;
                     }
-                }
-            }
-            else if (accountNumber.Contains("ILL"))
-            {
-                for (int i = 0; i < 9; i++)
-                {
-                    if (accountNumber[i].ToString() == "?")
-                    {
-                        isPossible = TestPossibleErrorFactory.TestAll().TestAPossibleNumber(accountNumber, i);
-                    }
+
+                    account.errorPossible = _strategy.TestAPossibleNumber(account.accountNumber, i);
                 }
             }
 
-            if (isPossible && accountNumber.Contains("ERR"))
-            {
-                accountNumber = accountNumber.Replace("ERR", "AMB");
-            }
-            else if (!isPossible && accountNumber.Contains("ERR"))
-            {
-                accountNumber = accountNumber.Replace("ERR", "ILL");
-            }
-            else if (isPossible && accountNumber.Contains("ILL"))
-            {
-                accountNumber = accountNumber.Replace("ILL", "AMB");
-            }
+            account.ChangeInfo(account);
 
-            return accountNumber;
+            return account.accountNumber;
         }
 
         public static bool CheckIfAccountIsValid(string accountNumber)

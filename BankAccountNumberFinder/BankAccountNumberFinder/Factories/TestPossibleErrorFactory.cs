@@ -4,7 +4,6 @@ using System.Text;
 
 namespace BankAccountNumberFinder.Factories
 {
-
     public interface ITestNumberFactory
     {
         bool TestAPossibleNumber(string accountNumber, int index);
@@ -21,6 +20,15 @@ namespace BankAccountNumberFinder.Factories
         public static ITestNumberFactory Test7() => new Test7Number();
         public static ITestNumberFactory Test8() => new Test8Number();
         public static ITestNumberFactory Test9() => new Test9Number();
+        public static ITestNumberFactory TestNone() => new TestNone();
+    }
+
+    public class TestNone : ITestNumberFactory
+    {
+        public bool TestAPossibleNumber(string accountNumber, int index)
+        {
+            return false;
+        }
     }
 
     public class TestAllNumbers : ITestNumberFactory
@@ -37,7 +45,6 @@ namespace BankAccountNumberFinder.Factories
                     return true;
                 }
             }
-
             return false;
         }
     }
@@ -138,6 +145,4 @@ namespace BankAccountNumberFinder.Factories
             return NumberFinder.CheckIfAccountIsValid(falseAccountNumber);
         }
     }
-
-
 }

@@ -10,10 +10,10 @@ namespace ScannerPgm
         {
             Console.WriteLine("Entrez le chemin de votre fichier");
             string filePath = Console.ReadLine();
-            List<string> accountNumbers = NumberFinder.ScanEntry(filePath);
+            List<AccountNumber> accountNumbers = NumberFinder.ScanEntry(filePath);
             foreach(var number in accountNumbers)
             {
-                Console.WriteLine(number);
+                Console.WriteLine(number.accountNumber);
             }
 
             Console.Read();

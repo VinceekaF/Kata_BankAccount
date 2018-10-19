@@ -32,9 +32,9 @@ namespace BankAccountNumberFinder.Tests
         public void GetListOfAccountsNumber(string fileName, string number)
         {
             string filePath = GetPath(fileName);
-            List<String> allAccountNumbersReadable = NumberFinder.ScanEntry(filePath);
+            List<AccountNumber> allAccountNumbersReadable = NumberFinder.ScanEntry(filePath);
 
-            Assert.Equal(number, allAccountNumbersReadable[0]);
+            Assert.Equal(number, allAccountNumbersReadable[0].accountNumber);
         }
 
         [Theory]
