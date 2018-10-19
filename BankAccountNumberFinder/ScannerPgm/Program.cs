@@ -13,7 +13,19 @@ namespace ScannerPgm
             List<AccountNumber> accountNumbers = NumberFinder.ScanEntry(filePath);
             foreach(var number in accountNumbers)
             {
-                Console.WriteLine(number.accountNumber);
+                if (number.errorPossible)
+                {
+                    Console.WriteLine($"There is a possibility of a machine failure\n" +
+                        $"with account number: {number.accountNumber}\n" +
+                        $" {number.possibleRightNumber} could be a {number.possibleWrongNumber}");
+                    Console.WriteLine("\n");
+                }
+                else
+                {
+                    Console.WriteLine("account number: " + number.accountNumber);
+                    Console.WriteLine("\n");
+
+                }
             }
 
             Console.Read();

@@ -1,5 +1,4 @@
-﻿using BankAccountNumberFinder.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,6 +6,13 @@ namespace BankAccountNumberFinder
 {
     public class AccountNumber
     {
+        public string accountNumber { get; set; }
+        public bool isReadable { get; set; }
+        public bool errorPossible { get; set; }
+        public bool isValid { get; set; }
+        public string possibleWrongNumber { get; set; }
+        public string possibleRightNumber { get; set; }
+
         public AccountNumber(string _accountNumber, bool _isReadable)
         {
             accountNumber = _accountNumber;
@@ -16,12 +22,6 @@ namespace BankAccountNumberFinder
             possibleWrongNumber = "";
             possibleRightNumber = "";
         }
-        public string accountNumber { get; set; }
-        public bool isReadable { get; set; }
-        public bool errorPossible { get; set; }
-        public bool isValid { get; set; }
-        public string possibleWrongNumber { get; set; }
-        public string possibleRightNumber { get; set; }
 
         public void AddInfo(AccountNumber account)
         {
