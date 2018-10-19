@@ -22,12 +22,12 @@ namespace ScannerPgm
                         if (i == number.positionOfWrongNumber)
                         {
                             Console.ForegroundColor = System.ConsoleColor.Green;
-                            Console.Write(chars[i]);
+                            Console.Write(number.possibleWrongNumber); 
                         }
                         else
                         {
                             Console.ForegroundColor = System.ConsoleColor.White;
-                            Console.Write(number.possibleWrongNumber);
+                            Console.Write(chars[i]);
                         }
                     }
                 Console.WriteLine($"\nThe green {number.possibleWrongNumber} was a {number.possibleRightNumber}\n");
