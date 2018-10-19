@@ -43,7 +43,7 @@ namespace BankAccountNumberFinder.BDD
             Assert.AreEqual(count, Output.Count);
         }
 
-        [Then(@"I want to get a normalized ""(.*)""")]
+        [Then(@"I want to get a normalized (.*)")]
         public void ThenIWantToGetANormalized(string account)
         {
             Assert.AreEqual(account, accountNumber);

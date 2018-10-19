@@ -17,8 +17,8 @@ Scenario Outline: When I target a specific account in my list, I want to see a r
 	And I target an account by its <index>
 	Then I want to get a normalized <account>
 	Examples:
-	| file          | index | account		  |
-	| Example55.txt | 1     | "729466750 AMB" |
-	| Example55.txt | 4     | "55?7?312? AMB" |
-	| Example66.txt | 0     | "123456789"     |
+	| file          | index | account		|
+	| Example55.txt | 1     | 729466750 AMB |
+	| Example55.txt | 4     | 55?7?312? ILL |
+	| Example66.txt | 0     | 123456789     |
 		

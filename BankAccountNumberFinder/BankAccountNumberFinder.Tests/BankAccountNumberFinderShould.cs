@@ -64,7 +64,7 @@ namespace BankAccountNumberFinder.Tests
         [Theory]
         [InlineData("490067715 ERR", "490067715 AMB")]
         [InlineData("556703120 ERR", "556703120 AMB")]
-        [InlineData("12345678? ILL", "12345678? AMB")]
+        [InlineData("9?3456740 ILL", "9?3456740 AMB")]
         public void CheckIfThereIsAPossibleError(string accountNumber, string expected)
         {
             accountNumber = NumberFinder.CheckPossibleErrors(accountNumber);

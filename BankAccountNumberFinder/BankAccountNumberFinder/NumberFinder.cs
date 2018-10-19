@@ -61,7 +61,7 @@ namespace BankAccountNumberFinder
                     accountNumber += " ILL";
                 }
                 int v =accountNumber.Where(x => x.ToString() == "?").Count();
-                if (accountNumber.Length > 9 || accountNumber.Where(x=>x.ToString()=="?").Count() < 2)
+                if (accountNumber.Length > 9 && accountNumber.Where(x=>x.ToString()=="?").Count() < 2)
                 {
                     accountNumber = CheckPossibleErrors(accountNumber);
                 }
