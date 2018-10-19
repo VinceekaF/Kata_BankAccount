@@ -134,7 +134,7 @@ namespace BankAccountNumberFinder.Factories
             {
                 account.possibleRightNumber = account.accountNumber[index].ToString();
                 account.possibleWrongNumber = numberToTest.ToString();
-                account.positionOfWrongNumber = index + 1;
+                account.positionOfWrongNumber = index;
             }
         }
     }

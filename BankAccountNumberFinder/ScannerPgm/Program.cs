@@ -15,18 +15,30 @@ namespace ScannerPgm
             {
                 if (number.errorPossible)
                 {
-                    Console.WriteLine($"There is a possibility of a machine failure\n" +
-                        $"with account number: {number.accountNumber}\n" +
-                        $" {number.possibleRightNumber} at the position {number.positionOfWrongNumber} could be a {number.possibleWrongNumber}");
-                    Console.WriteLine("\n");
+                    Console.WriteLine($"There is a possibility of a machine failure with account number: ");
+                    Char[] chars = number.accountNumber.ToCharArray();
+                    for(int i =0; i<chars.Length;i++)
+                    {
+                        if (i == number.positionOfWrongNumber)
+                        {
+                            Console.ForegroundColor = System.ConsoleColor.Green;
+                            Console.Write(chars[i]);
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = System.ConsoleColor.White;
+                            Console.Write(chars[i]);
+                        }
+                    }
+                Console.WriteLine($"\nThe green {number.possibleRightNumber} could be a {number.possibleWrongNumber}\n");
                 }
                 else
                 {
+                    Console.ForegroundColor = System.ConsoleColor.White;
                     Console.WriteLine("account number: " + number.accountNumber);
                     Console.WriteLine("\n");
                 }
             }
-
             Console.Read();
         }
     }
