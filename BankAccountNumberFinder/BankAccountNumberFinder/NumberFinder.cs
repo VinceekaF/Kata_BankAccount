@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankAccountNumberFinder.Factories;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -121,51 +122,53 @@ namespace BankAccountNumberFinder
                 j += 3;
             }
 
-
             return listOfAccount;
-
         }
 
         public static string CheckPossibleErrors(string accountNumber)
         {
             bool isPossible = false;
+            
             if (accountNumber.Contains("ERR"))
             {
                 for (int i = 0; i < 9; i++)
                 {
                     if (!isPossible)
                     {
+                        ITestNumberFactory _strategy = TestPossibleErrorFactory.Test7();
                         switch (accountNumber[i].ToString())
                         {
                             case "0":
-                            case "6":
-                                isPossible = TestsOfError.TestTo8(accountNumber, i);
+                                _strategy = TestPossibleErrorFactory.Test0();
                                 break;
                             case "1":
-                                isPossible = TestsOfError.TestTo7(accountNumber, i);
+                                _strategy = TestPossibleErrorFactory.Test1();
                                 break;
                             case "3":
-                                isPossible = TestsOfError.TestTo9(accountNumber, i);
+                                _strategy = TestPossibleErrorFactory.Test3();
                                 break;
                             case "5":
-                                isPossible = TestsOfError.TestTheTwoCasesOf5(accountNumber, i);
+                                _strategy = TestPossibleErrorFactory.Test5();
+                                break;
+                            case "6":
+                                _strategy = TestPossibleErrorFactory.Test6();
                                 break;
                             case "7":
-                                isPossible = TestsOfError.TestTo1(accountNumber, i);
+                                _strategy = TestPossibleErrorFactory.Test7();
                                 break;
                             case "8":
-                                isPossible = TestsOfError.TestTheTwoCasesOf8(accountNumber, i);
+                                _strategy = TestPossibleErrorFactory.Test8();
                                 break;
                             case "9":
-                                isPossible = TestsOfError.TestTheTwoCasesOf9(accountNumber, i);
+                                _strategy = TestPossibleErrorFactory.Test9();
                                 break;
                             default:
                                 isPossible = false;
                                 break;
                         }
+                        isPossible = _strategy.TestAPossibleNumber(accountNumber, i);
                     }
                 }
-
             }
             else if (accountNumber.Contains("ILL"))
             {
@@ -173,7 +176,7 @@ namespace BankAccountNumberFinder
                 {
                     if (accountNumber[i].ToString() == "?")
                     {
-                        isPossible = TestsOfError.TestAllNumbers(accountNumber, i);
+                        isPossible = TestPossibleErrorFactory.TestAll().TestAPossibleNumber(accountNumber, i);
                     }
                 }
             }
@@ -194,8 +197,6 @@ namespace BankAccountNumberFinder
             return accountNumber;
         }
 
-       
-
         public static bool CheckIfAccountIsValid(string accountNumber)
         {
             int sum = 0;
@@ -211,11 +212,6 @@ namespace BankAccountNumberFinder
                 return isValid = false;
 
             return isValid;
-
         }
-
-
-
-
     }
 }

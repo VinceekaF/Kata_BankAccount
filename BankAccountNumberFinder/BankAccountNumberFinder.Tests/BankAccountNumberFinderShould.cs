@@ -27,8 +27,6 @@ namespace BankAccountNumberFinder.Tests
         };
 
 
-        private readonly string pathTest1 = Path.Combine(Environment.CurrentDirectory, "Test55.txt");
- 
         [Theory]
         [InlineData("Example55.txt", "111111145")]
         public void GetListOfAccountsNumber(string fileName, string number)
@@ -65,6 +63,8 @@ namespace BankAccountNumberFinder.Tests
         [InlineData("490067715 ERR", "490067715 AMB")]
         [InlineData("556703120 ERR", "556703120 AMB")]
         [InlineData("9?3456740 ILL", "9?3456740 AMB")]
+        [InlineData("113456789 ERR", "113456789 AMB")]
+        [InlineData("183456789 ERR", "183456789 AMB")]
         public void CheckIfThereIsAPossibleError(string accountNumber, string expected)
         {
             accountNumber = NumberFinder.CheckPossibleErrors(accountNumber);
