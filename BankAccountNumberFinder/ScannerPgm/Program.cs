@@ -27,10 +27,10 @@ namespace ScannerPgm
                         else
                         {
                             Console.ForegroundColor = System.ConsoleColor.White;
-                            Console.Write(chars[i]);
+                            Console.Write(number.possibleWrongNumber);
                         }
                     }
-                Console.WriteLine($"\nThe green {number.possibleRightNumber} could be a {number.possibleWrongNumber}\n");
+                Console.WriteLine($"\nThe green {number.possibleWrongNumber} was a {number.possibleRightNumber}\n");
                 }
                 else
                 {
