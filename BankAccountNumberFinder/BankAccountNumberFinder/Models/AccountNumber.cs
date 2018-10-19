@@ -12,6 +12,7 @@ namespace BankAccountNumberFinder
         public bool isValid { get; set; }
         public string possibleWrongNumber { get; set; }
         public string possibleRightNumber { get; set; }
+        public int? positionOfWrongNumber { get; set; }
 
         public AccountNumber(string _accountNumber, bool _isReadable)
         {
