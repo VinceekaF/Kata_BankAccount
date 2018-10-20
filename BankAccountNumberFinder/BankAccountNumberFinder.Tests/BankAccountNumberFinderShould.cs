@@ -60,17 +60,19 @@ namespace BankAccountNumberFinder.Tests
         }
 
         [Theory]
-        [InlineData("490067715 ERR", "490067715 AMB")]
-        [InlineData("556703120 ERR", "556703120 AMB")]
-        [InlineData("9?3456740 ILL", "9?3456740 ILL")]
-        [InlineData("113456789 ERR", "113456789 AMB")]
-        [InlineData("183456789 ERR", "183456789 AMB")]
-        public void CheckIfThereIsAPossibleError(string accountNumber, string expected)
+        [InlineData("490067715", true,  true)]
+        [InlineData("556703120", true,  true)]
+        [InlineData("9?3456740", true,  true)]
+        [InlineData("113456789", true,  true)]
+        [InlineData("183456789", true, true)]
+        public void CheckIfThereIsAPossibleError(string accountNumber,bool errorPossible, bool expected)
         {
-            AccountNumber account = new AccountNumber(accountNumber,true);
-            accountNumber = NumberFinder.CheckPossibleErrors(account);
+            AccountNumber account = new AccountNumber();
+            account.accountNumber = accountNumber;
+            account.errorPossible = errorPossible;
+            account = NumberFinder.CheckPossibleErrors(account);
 
-            Assert.Equal(expected, accountNumber);
+            Assert.Equal(expected, account.errorPossible);
         }
 
         private string GetPath(string fileName)

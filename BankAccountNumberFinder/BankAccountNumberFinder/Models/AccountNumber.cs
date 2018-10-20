@@ -14,42 +14,14 @@ namespace BankAccountNumberFinder
         public string possibleRightNumber { get; set; }
         public int? positionOfWrongNumber { get; set; }
 
-        public AccountNumber(string _accountNumber, bool _isReadable)
+        public AccountNumber()
         {
-            accountNumber = _accountNumber;
-            isReadable = _isReadable;
+            accountNumber = "";
+            isReadable = true;
             errorPossible = false;
             isValid = true;
             possibleWrongNumber = "";
             possibleRightNumber = "";
-        }
-
-        public void AddInfo(AccountNumber account)
-        {
-            if (!account.isValid && account.isReadable)
-            {
-                account.accountNumber += " ERR";
-            }
-            else if (!account.isReadable)
-            {
-                account.accountNumber += " ILL";
-            }
-        }
-
-        public void ChangeInfo(AccountNumber account)
-        {
-            if (account.errorPossible && account.accountNumber.Contains("ERR"))
-            {
-                account.accountNumber = account.accountNumber.Replace("ERR", "AMB");
-            }
-            else if (!account.errorPossible && account.accountNumber.Contains("ERR"))
-            {
-                account.accountNumber = account.accountNumber.Replace("ERR", "ILL");
-            }
-            else if (account.errorPossible && account.accountNumber.Contains("ILL"))
-            {
-                account.accountNumber = account.accountNumber.Replace("ILL", "AMB");
-            }
         }
     }
 }

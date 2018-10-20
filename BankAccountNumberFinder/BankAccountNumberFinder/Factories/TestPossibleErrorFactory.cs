@@ -27,7 +27,6 @@ namespace BankAccountNumberFinder.Factories
     {
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-           
         }
     }
 
@@ -35,7 +34,7 @@ namespace BankAccountNumberFinder.Factories
     {
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-            
+            account.isReadable = false;
             for (int j = 0; j < 10; j++)
             {
                 GlobalTest.Test(account, index, j.ToString());
@@ -73,10 +72,7 @@ namespace BankAccountNumberFinder.Factories
             GlobalTest.Test(account, index, "6");
 
             if (!account.errorPossible)
-            {
                 GlobalTest.Test(account, index, "9");
-            }
-
         }
     }
 
@@ -103,10 +99,7 @@ namespace BankAccountNumberFinder.Factories
             GlobalTest.Test(account, index, "0");
 
             if (!account.errorPossible)
-            {
                 GlobalTest.Test(account, index, "5");
-            }
-
         }
     }
 
@@ -117,9 +110,8 @@ namespace BankAccountNumberFinder.Factories
             GlobalTest.Test(account, index, "8");
 
             if (!account.errorPossible)
-            {
                 GlobalTest.Test(account, index, "5");
-            }
+            
         }
     }
 
@@ -128,7 +120,7 @@ namespace BankAccountNumberFinder.Factories
         public static void Test(AccountNumber account, int index, string numberToTest)
         {
             string falseAccountNumber = account.accountNumber;
-            falseAccountNumber = falseAccountNumber.Remove(index, 1).Insert(index, numberToTest).Remove(9);
+            falseAccountNumber = falseAccountNumber.Remove(index, 1).Insert(index, numberToTest);
             account.errorPossible = NumberFinder.CheckIfAccountIsValid(falseAccountNumber);
             if (account.errorPossible)
             {

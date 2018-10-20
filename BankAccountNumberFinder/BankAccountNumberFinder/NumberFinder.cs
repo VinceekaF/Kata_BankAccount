@@ -34,32 +34,29 @@ namespace BankAccountNumberFinder
 
             foreach (var listOfDigits in allAccountNumbers)
             {
-                string accountNumber = "";
-                bool isReadable = true;
+                AccountNumber account = new AccountNumber();
 
                 foreach (var number in listOfDigits)
                 {
                     if (_digits.ContainsKey(number))
                     {
-                        accountNumber += _digits[number];
+                        account.accountNumber += _digits[number];
                     }
                     else
                     {
-                        accountNumber += "?";
-                        isReadable = false;
+                        account.accountNumber += "?";
+                        account.isReadable = false;
                     }
                 }
 
-                AccountNumber account = new AccountNumber(accountNumber, isReadable);
-
                 account.isValid = CheckIfAccountIsValid(account.accountNumber);
 
-                account.AddInfo(account);
-
-                if (account.accountNumber.Length > 9 && account.accountNumber.Where(x=>x.ToString()=="?").Count() < 2)
+                if (!account.isValid && account.accountNumber.Where(x=>x.ToString()=="?").Count() < 2)
                 {
-                    account.accountNumber = CheckPossibleErrors(account);
+                    account = CheckPossibleErrors(account);
                 }
+
+                AddInfo(account);
 
                 allAccountNumbersReadable.Add(account);
             }
@@ -68,13 +65,13 @@ namespace BankAccountNumberFinder
         }
 
 
-        public static string CheckPossibleErrors(AccountNumber account)
+        public static AccountNumber CheckPossibleErrors(AccountNumber account)
         {
             for (int i = 0; i < 9; i++)
             {
+                ITestNumberFactory _strategy = TestPossibleErrorFactory.TestNone();
                 if (!account.errorPossible)
                 {
-                    ITestNumberFactory _strategy = TestPossibleErrorFactory.TestNone();
                     switch (account.accountNumber[i].ToString())
                     {
                         case "0":
@@ -113,9 +110,7 @@ namespace BankAccountNumberFinder
                 }
             }
 
-            account.ChangeInfo(account);
-
-            return account.accountNumber;
+            return account;
         }
 
         public static bool CheckIfAccountIsValid(string accountNumber)
@@ -129,7 +124,7 @@ namespace BankAccountNumberFinder
                 count--;
             }
 
-            if (sum % 11 != 0)
+            if (sum % 11 != 0 || accountNumber.Contains("?"))
                 return isValid = false;
 
             return isValid;
@@ -185,6 +180,19 @@ namespace BankAccountNumberFinder
             }
 
             return listOfAccount;
+        }
+
+        public static void AddInfo(AccountNumber account)
+        {
+            if (account.errorPossible && account.isReadable)
+            {
+                account.accountNumber += " AMB";
+            }
+            else if (!account.isReadable)
+            {
+                account.accountNumber += " ILL";
+            }
+
         }
     }
 }
