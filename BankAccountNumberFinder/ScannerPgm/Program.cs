@@ -8,9 +8,10 @@ namespace ScannerPgm
     {
         static void Main(string[] args)
         {
+            AccountScanner _as = new AccountScanner(new NumberFinder());
             Console.WriteLine("Entrez le chemin de votre fichier");
             string filePath = Console.ReadLine();
-            List<AccountNumber> accountNumbers = NumberFinder.ScanEntry(filePath);
+            List<AccountNumber> accountNumbers = _as.ScanEntry(filePath);
             foreach(var number in accountNumbers)
             {
                 if (number.errorPossible)

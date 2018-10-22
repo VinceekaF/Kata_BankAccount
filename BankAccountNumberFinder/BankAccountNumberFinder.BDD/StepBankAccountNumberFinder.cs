@@ -12,6 +12,12 @@ namespace BankAccountNumberFinder.BDD
     [Binding]
     public sealed class StepBankAccountNumberFinder
     {
+        INumberFinder Bo;
+
+        public StepBankAccountNumberFinder()
+        {
+            Bo = new NumberFinder();
+        }
         public static List<AccountNumber> Output
         {
             get => ScenarioContext.Current.Get<List<AccountNumber>>(nameof(Output));
@@ -28,7 +34,7 @@ namespace BankAccountNumberFinder.BDD
         public void WhenIReadAText(string fileName)
         {
             string filePath = GetPath(fileName);
-            Output = NumberFinder.ScanEntry(filePath);
+            Output = Bo.ScanEntry(filePath);
         }
 
         [When(@"I target an account by its (.*)")]

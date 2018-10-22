@@ -7,9 +7,8 @@ namespace BankAccountNumberFinder.Factories
     public interface ITestNumberFactory
     {
         void TestAPossibleNumber(AccountNumber account, int index);
-
     }
-    public static class TestPossibleErrorFactory
+    public class TestPossibleErrorFactory
     {
         public static ITestNumberFactory TestAll() => new TestAllNumbers();
         public static ITestNumberFactory Test0() => new Test0Number();
@@ -32,96 +31,111 @@ namespace BankAccountNumberFinder.Factories
 
     public class TestAllNumbers : ITestNumberFactory
     {
+        IGlobalTest _globalTest = new GlobalTest();
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
             account.isReadable = false;
             for (int j = 0; j < 10; j++)
             {
-                GlobalTest.Test(account, index, j.ToString());
+                _globalTest.Test(account, index, j.ToString());
             }
         }
     }
     public class Test0Number : ITestNumberFactory
     {
+        IGlobalTest _globalTest = new GlobalTest();
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-            GlobalTest.Test(account, index, "8");
+            _globalTest.Test(account, index, "8");
         }
     }
 
     public class Test1Number : ITestNumberFactory
     {
+        IGlobalTest _globalTest = new GlobalTest();
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-            GlobalTest.Test(account, index, "7");
+            _globalTest.Test(account, index, "7");
         }
     }
 
     public class Test3Number : ITestNumberFactory
     {
+        IGlobalTest _globalTest = new GlobalTest();
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-            GlobalTest.Test(account, index, "9");
+            _globalTest.Test(account, index, "9");
         }
     }
 
     public class Test5Number : ITestNumberFactory
     {
+        IGlobalTest _globalTest = new GlobalTest();
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-            GlobalTest.Test(account, index, "6");
+            _globalTest.Test(account, index, "6");
 
             if (!account.errorPossible)
-                GlobalTest.Test(account, index, "9");
+                _globalTest.Test(account, index, "9");
         }
     }
 
     public class Test6Number : ITestNumberFactory
     {
+        IGlobalTest _globalTest = new GlobalTest();
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-            GlobalTest.Test(account, index, "8");
+            _globalTest.Test(account, index, "8");
         }
     }
 
     public class Test7Number : ITestNumberFactory
     {
-         public void TestAPossibleNumber(AccountNumber account, int index)
+        IGlobalTest _globalTest = new GlobalTest();
+        public void TestAPossibleNumber(AccountNumber account, int index)
             {
-                GlobalTest.Test(account, index, "1");
+            _globalTest.Test(account, index, "1");
             }
     }
 
     public class Test8Number : ITestNumberFactory
     {
+        IGlobalTest _globalTest = new GlobalTest();
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-            GlobalTest.Test(account, index, "0");
+            _globalTest.Test(account, index, "0");
 
             if (!account.errorPossible)
-                GlobalTest.Test(account, index, "5");
+                _globalTest.Test(account, index, "5");
         }
     }
 
     public class Test9Number : ITestNumberFactory
     {
+        IGlobalTest _globalTest = new GlobalTest();
         public void TestAPossibleNumber(AccountNumber account, int index)
         {
-            GlobalTest.Test(account, index, "8");
+            _globalTest.Test(account, index, "8");
 
             if (!account.errorPossible)
-                GlobalTest.Test(account, index, "5");
+                _globalTest.Test(account, index, "5");
             
         }
     }
 
-    public class GlobalTest
+    public interface IGlobalTest
     {
-        public static void Test(AccountNumber account, int index, string numberToTest)
+        void Test(AccountNumber account, int index, string numberToTest);
+    }
+
+    public class GlobalTest : IGlobalTest
+    {
+        INumberFinder _bo = new NumberFinder();
+        public void Test(AccountNumber account, int index, string numberToTest)
         {
             string falseAccountNumber = account.accountNumber;
             falseAccountNumber = falseAccountNumber.Remove(index, 1).Insert(index, numberToTest);
-            account.errorPossible = NumberFinder.CheckIfAccountIsValid(falseAccountNumber);
+            account.errorPossible = _bo.CheckIfAccountIsValid(falseAccountNumber);
             if (account.errorPossible)
             {
                 account.possibleRightNumber = account.accountNumber[index].ToString();

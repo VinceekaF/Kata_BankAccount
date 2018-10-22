@@ -10,6 +10,14 @@ namespace BankAccountNumberFinder.Tests
 {
     public class BankAccountNumberFinderShould
     {
+        private INumberFinder Bo { get; }
+        private AccountScanner _as = new AccountScanner(new NumberFinder());
+
+        public BankAccountNumberFinderShould()
+        {
+            Bo = new NumberFinder();
+        }
+
         public Dictionary<string, string> _digits = new Dictionary<string, string>
         {
             {"     |  |","1" },
@@ -32,7 +40,7 @@ namespace BankAccountNumberFinder.Tests
         public void GetListOfAccountsNumber(string fileName, string number)
         {
             string filePath = GetPath(fileName);
-            List<AccountNumber> allAccountNumbersReadable = NumberFinder.ScanEntry(filePath);
+            List<AccountNumber> allAccountNumbersReadable = _as.ScanEntry(filePath);
 
             Assert.Equal(number, allAccountNumbersReadable[0].accountNumber);
         }
@@ -43,7 +51,7 @@ namespace BankAccountNumberFinder.Tests
         [InlineData("111111145",true)]
         public void CheckAccountNumber(string accountNumber, bool isValid)
         {
-            bool testIfValid = NumberFinder.CheckIfAccountIsValid(accountNumber);
+            bool testIfValid = Bo.CheckIfAccountIsValid(accountNumber);
 
             Assert.Equal(isValid, testIfValid);
         }
@@ -54,23 +62,23 @@ namespace BankAccountNumberFinder.Tests
         public void GetListOfAccounts(string fileName, int count)
         {
             string filePath = GetPath(fileName);
-            List<List<string>> listOfAccount = NumberFinder.ReadAllAccountNumbers(filePath);
+            List<List<string>> listOfAccount = Bo.ReadAllAccountNumbers(filePath);
 
             Assert.Equal(count, listOfAccount.Count);
         }
 
         [Theory]
-        [InlineData("490067715", true,  true)]
-        [InlineData("556703120", true,  true)]
-        [InlineData("9?3456740", true,  true)]
-        [InlineData("113456789", true,  true)]
-        [InlineData("183456789", true, true)]
-        public void CheckIfThereIsAPossibleError(string accountNumber,bool errorPossible, bool expected)
+        [InlineData("490067715", true)]
+        [InlineData("556703120", true)]
+        [InlineData("9?3456740", false)]
+        [InlineData("113456789", true)]
+        [InlineData("183456789", true)]
+        public void CheckIfThereIsAPossibleError(string accountNumber, bool expected)
         {
             AccountNumber account = new AccountNumber();
             account.accountNumber = accountNumber;
-            account.errorPossible = errorPossible;
-            account = NumberFinder.CheckPossibleErrors(account);
+            account.errorPossible = false;
+            account = Bo.CheckPossibleErrors(account);
 
             Assert.Equal(expected, account.errorPossible);
         }

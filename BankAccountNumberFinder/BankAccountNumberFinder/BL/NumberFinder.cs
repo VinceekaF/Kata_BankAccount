@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BankAccountNumberFinder
 {
-    public class NumberFinder
+    public class NumberFinder : INumberFinder
     {
         private static readonly Dictionary<string, string> _digits = new Dictionary<string, string>
         {
@@ -24,8 +24,10 @@ namespace BankAccountNumberFinder
             {" _ |_| _|","9" },
             {" _ | ||_|","0" }
         };
+
+
         
-        public static List<AccountNumber> ScanEntry(string filePath)
+        public List<AccountNumber> ScanEntry(string filePath)
         {
             List<List<string>> allAccountNumbers = ReadAllAccountNumbers(filePath);
 
@@ -64,12 +66,11 @@ namespace BankAccountNumberFinder
             return allAccountNumbersReadable;
         }
 
-
-        public static AccountNumber CheckPossibleErrors(AccountNumber account)
+        public AccountNumber CheckPossibleErrors(AccountNumber account)
         {
+            ITestNumberFactory _strategy = TestPossibleErrorFactory.TestNone();
             for (int i = 0; i < 9; i++)
             {
-                ITestNumberFactory _strategy = TestPossibleErrorFactory.TestNone();
                 if (!account.errorPossible)
                 {
                     switch (account.accountNumber[i].ToString())
@@ -113,7 +114,7 @@ namespace BankAccountNumberFinder
             return account;
         }
 
-        public static bool CheckIfAccountIsValid(string accountNumber)
+        public bool CheckIfAccountIsValid(string accountNumber)
         {
             int sum = 0;
             int count = 9;
@@ -130,7 +131,7 @@ namespace BankAccountNumberFinder
             return isValid;
         }
 
-        public static List<List<string>> ReadAllAccountNumbers(string filePath)
+        public List<List<string>> ReadAllAccountNumbers(string filePath)
         {
 
             string[] lines = File.ReadAllLines(filePath);
@@ -182,7 +183,7 @@ namespace BankAccountNumberFinder
             return listOfAccount;
         }
 
-        public static void AddInfo(AccountNumber account)
+        public void AddInfo(AccountNumber account)
         {
             if (account.errorPossible && account.isReadable)
             {
