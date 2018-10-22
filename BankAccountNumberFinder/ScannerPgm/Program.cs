@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace ScannerPgm
 {
     class Program
     {
+       
         static void Main(string[] args)
         {
+
             AccountScanner _as = new AccountScanner(new NumberFinder());
             Console.WriteLine("Entrez le chemin de votre fichier");
             string filePath = Console.ReadLine();
